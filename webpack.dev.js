@@ -5,6 +5,9 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
     entry: './src/client/index.js',
     output: {
+        path: path.resolve(__dirname, 'dist'), // Replace 'dist' with your desired output directory
+    filename: 'main.js',
+    publicPath: '/',
         libraryTarget: 'var',
         library: 'Client'
     },
