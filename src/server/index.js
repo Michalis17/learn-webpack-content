@@ -40,13 +40,24 @@ app.post('/analysis', (req, res) => {
   // You can process the data here and send a response if needed
   sentimentAnalysis(url)
   .then(data => {
-    console.log(data.score_tag);
-    console.log(data.subjectivity);// this is where you use res.send 
+    const atriclePolarity = data.score_tag;
+    const articleContent_array = data.sentence_list;
+    const filteredArray = articleContent_array.filter(item => {
+      // Your condition here
+      return item.score_tag == atriclePolarity;
+    });
+
+    let articleContent  = "";
+    
+    filteredArray.forEach(element => {
+      articleContent = articleContent.concat(element.text + " ");
+    });
+
+    res.send([atriclePolarity, data.subjectivity, articleContent]);
   })
   .catch(error => {
     console.error('Error:', error);
   });
-//   res.send({ message: 'Data received successfully' });
 });
 
 const sentimentAnalysis = async (url) => {
